@@ -18,7 +18,17 @@ const words = [
 ];
 
 function generateRandomWord(startingLetter) {
-    let filteredWords = startingLetter ? words.filter(word => word.startsWith(startingLetter.toLowerCase())) : words;
+    if (!/^[a-zA-Z]$/.test(startingLetter)) {
+        throw new Error("Invalid starting letter.");
+    }
+
+    // Filtrar palabras que comiencen con la letra proporcionada
+    let filteredWords = words.filter(word => word.toLowerCase().startsWith(startingLetter.toLowerCase()));
+
+    // Si no hay palabras que comiencen con la letra inicial, lanzar un error
+    if (filteredWords.length === 0) {
+        throw new Error("No words start with the provided starting letter.");
+    }
     return filteredWords[Math.floor(Math.random() * filteredWords.length)] || null;
 }
 
@@ -32,6 +42,7 @@ function isValidWord(userWord, lastLetter) {
  * @returns {number} El puntaje calculado como la longitud del arreglo.
  */
 function calculateScore(wordsArray) {
+    console.log(wordsArray.length)
     return wordsArray.length;
 }
 
@@ -40,7 +51,7 @@ async function getLastLetter(req, res) {
         const { gameId } = req.params;  // Obtiene el gameId de los parámetros de la URL
         const game = await GameModel.findById(gameId);
         if (!game) {
-            return res.status(404).send({ message: "Game not found" });
+            return res.status(404).json({ message: "Game not found" });
         }
 
         res.status(200).send({ lastLetter: game.lastLetter });
@@ -90,11 +101,14 @@ async function createGame(req, res) {
 async function playGame(req, res) {
     try {
         const { userId, word } = req.body;
-
+        console.log(userId)
+        console.log(word)
 
         
         // Retrieve the active game using userId
-        console.log(await GameModel.find({ }))
+        if (isNaN(!word)){
+            return res.status(400).send({ message: "No active game found for this user" });
+        }
         const game = await GameModel.findOne({ userId: userId, isGameOver: false });
         if (!game) {
             return res.status(404).send({ message: "No active game found for this user" });
@@ -208,6 +222,8 @@ module.exports = {
     playGame,
     getLastLetter,
     calculateScore,
-    isValidWord
+    isValidWord,
+    generateRandomWord,
+    calculateScore
 };
 

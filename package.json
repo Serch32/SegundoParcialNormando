@@ -17,6 +17,7 @@
     "pug": "2.0.0-beta11"
   },
   "devDependencies": {
+    "node-mocks-http": "^1.14.1",
     "supertest": "^6.3.4"
   }
 }
