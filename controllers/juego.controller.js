@@ -18,19 +18,29 @@ const words = [
 ];
 
 function generateRandomWord(startingLetter) {
-    if (!/^[a-zA-Z]$/.test(startingLetter)) {
-        throw new Error("Invalid starting letter.");
+    let filteredWords;
+
+    // Si no se proporciona startingLetter, usa todas las palabras
+    if (!startingLetter) {
+        filteredWords = words;
+    } else {
+        // Verificar si startingLetter es una letra válida
+        if (!/^[a-zA-Z]$/.test(startingLetter)) {
+            throw new Error("Invalid starting letter.");
+        }
+
+        // Filtrar palabras que comiencen con la letra proporcionada
+        filteredWords = words.filter(word => word.toLowerCase().startsWith(startingLetter.toLowerCase()));
+
+        // Si no hay palabras que comiencen con la letra inicial, lanzar un error
+        if (filteredWords.length === 0) {
+            throw new Error("No words start with the provided starting letter.");
+        }
     }
 
-    // Filtrar palabras que comiencen con la letra proporcionada
-    let filteredWords = words.filter(word => word.toLowerCase().startsWith(startingLetter.toLowerCase()));
-
-    // Si no hay palabras que comiencen con la letra inicial, lanzar un error
-    if (filteredWords.length === 0) {
-        throw new Error("No words start with the provided starting letter.");
-    }
     return filteredWords[Math.floor(Math.random() * filteredWords.length)] || null;
 }
+
 
 function isValidWord(userWord, lastLetter) {
     return userWord[0].toLowerCase() === lastLetter.toLowerCase();
