@@ -13,8 +13,7 @@ const words = [
     'ratón', 'sandía', 'televisor', 'universo', 'volcán', 'windsurf', 'xenón', 'yo-yo',
     'zapato', 'árbol', 'éxito', 'índigo', 'órgano', 'útil', 'niñez', 'joya', 'araña',
     'ensalada', 'idioma', 'orquesta', 'urgencia', 'equis', 'sandwich', 'quiosco',
-    // Incluyendo algunas palabras coloquiales o groserías
-    'cabrón', 'gilipollas', 'cojones', 'puta', 'mierda', 'chingar', 'pendejo', 'hostia'
+
 ];
 
 function generateRandomWord(startingLetter) {
